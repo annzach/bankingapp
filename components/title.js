@@ -6,7 +6,10 @@ const Title = React.createClass({
       amount:'',
       credit:0,
       debit:0,
-      data:[]
+      data:[],
+      totalcredit:0,
+      totaldebit:0,
+      totaloverall:0
     }
 
   },
@@ -39,6 +42,35 @@ const Title = React.createClass({
     
   },
 
+  getTotal: function(event){
+    console.log("getTotal clicked");
+
+   var url = `/transactions/total`
+    fetch(url,
+    {
+      method: "GET",
+       headers : {
+        "Content-type":"application/json"
+      } 
+      
+    })
+      .then(res => {
+        console.log(res);
+        return res.json();
+    }).then(frontStore => {
+      console.log(frontStore);
+      this.setState({totalcredit:frontStore.totalcredit});
+      this.setState({totaldebit:frontStore.totaldebit});
+      this.setState({totaloverall:frontStore.diff});
+    })
+ 
+    .catch(err => console.log('err',err))
+
+
+  },
+
+
+
   DeleteMe :function(id){
             console.log("DeleteMe");
 
@@ -50,7 +82,7 @@ const Title = React.createClass({
     })
       .then(res => {
         console.log(res);
-    //  return res.json();
+        return res.json();
     })
  
     .catch(err => console.log('err',err))
@@ -89,7 +121,6 @@ const Title = React.createClass({
     })
     .catch(err => console.log('err','err'))
   },
-
   render(){
     return (
       <div id ="Maindiv">
@@ -97,8 +128,9 @@ const Title = React.createClass({
         <input type="text" className="form-control" value ={this.state.name} placeholder="Transcation name" onChange={this.onChangeName}/>
           <div>
          <input type="text" className="form-control" value ={this.state.amount} placeholder="Amount" onChange={this.onChangeAmount}/>
-          <div> 
           <div>
+        
+         <div>
             <select onChange={this.onChangeMenu} name="transaction type">
               <option value="Choose">Choose</option>
               <option value="Credit">Credit</option>
@@ -113,6 +145,9 @@ const Title = React.createClass({
       
          <DataDisplay data = {this.state.data} delete={this.DeleteMe}/>
              <button onClick ={this.getTotal}>GET TOTAL</button>
+              <h2>Balance: {this.state.totaloverall}</h2>
+         <h2>Credit: {this.state.totalcredit}</h2>
+         <h2>Debit: {this.state.totaldebit}</h2>
        </div>
     )
   }
@@ -175,20 +210,27 @@ const DataDisplay = React.createClass({
 
 
 
-const totalData = React.createClass({
+/*const totalData = React.createClass({
+
+   DeleteMe :function(event){
+   var id = event.target.id;
+   this.props.delete(id);
+
+
+  },
   render(){
     console.log('totalData route');
     console.log('state',this.props.data)
-       let person = this.props.data.map(info=>{
+      let info = this.props.data;
         return(
-          <tr key ={info._id}>
-            <td>{info._id }</td>
-            <td>{info.name }</td>
+          <tr key ={}>
             <td>{info.credit}</td>
             <td>{info.debit}</td>
             <td>{info.amount}</td>
-            <td>{info.time}</td>
-            <td><button id={info._id} className ="btn btn-danger" onClick ={this.DeleteMe}>Delete</button><button className ="btn btn-warning" onClick={this.ModifyMe}>Modify</button></td>
+            <td><button id={info._id} className ="btn btn-danger" 
+            onClick ={this.DeleteMe}>Delete</button>
+            <button className ="btn btn-warning" 
+            onClick={this.ModifyMe}>Modify</button></td>
           </tr>
           );
       });
@@ -207,6 +249,6 @@ const totalData = React.createClass({
       )
   }
 
-})
+})*/
 
 ReactDOM.render(<Title/>,document.getElementById('root'));

@@ -73,8 +73,12 @@ router.get('/total',(req,res)=>{
         console.log(err);
       }
       else{
-       var difference ={diff :results[0].totalcredit-results[0].totaldebit};
-       res.send(difference);
+       var frontStore ={
+          diff :results[0].totalcredit-results[0].totaldebit,
+          totalcredit:results[0].totalcredit,
+          totaldebit:results[0].totaldebit
+        };
+       res.send(frontStore);
          
       }
     }

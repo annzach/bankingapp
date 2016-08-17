@@ -6,6 +6,7 @@ let bankSchema = new mongoose.Schema({
   debit:{type:Number},
   amount:{type:Number},
   time:{type:Date}
+  
 })
 
 let Transaction = mongoose.model('transaction',bankSchema);

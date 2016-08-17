@@ -210,45 +210,4 @@ const DataDisplay = React.createClass({
 
 
 
-/*const totalData = React.createClass({
-
-   DeleteMe :function(event){
-   var id = event.target.id;
-   this.props.delete(id);
-
-
-  },
-  render(){
-    console.log('totalData route');
-    console.log('state',this.props.data)
-      let info = this.props.data;
-        return(
-          <tr key ={}>
-            <td>{info.credit}</td>
-            <td>{info.debit}</td>
-            <td>{info.amount}</td>
-            <td><button id={info._id} className ="btn btn-danger" 
-            onClick ={this.DeleteMe}>Delete</button>
-            <button className ="btn btn-warning" 
-            onClick={this.ModifyMe}>Modify</button></td>
-          </tr>
-          );
-      });
-    return(
-       <table className="table table-bordered">
-          <thead>
-              <tr>
-                <th>Total Credit</th>
-                <th>Total Debit</th>
-                <th>Total Amount</th>
-                </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      )
-  }
-
-})*/
-
 ReactDOM.render(<Title/>,document.getElementById('root'));

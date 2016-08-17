@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "echo 'Error: no test specified' && exit 1",
+    "postinstall": "npm install mongo",
     "start": "node ./bin/www"
+  },
+  "engines": {
+    "node": "6.3.1"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -12,6 +17,8 @@
     "ejs": "^2.5.1",
     "express": "~4.13.4",
     "jade": "~1.11.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.5.9",
     "morgan": "~1.7.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",

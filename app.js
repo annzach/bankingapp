@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 const MONGO_URL =process.env.MONGODB_URI || 'mongodb://localhost/bankdb';
 //const MONGO_URL ='mongodb://localhost/bankdb';
 var mongoose = require('mongoose');
-mongoose.connect(MONGO_URL,err =>{
+mongoose.connect(MONGO_URL,{},(err) =>{
 console.log(err||`Mongodb connected to ${MONGO_URL}`)
 });
 

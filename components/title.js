@@ -83,6 +83,7 @@ const Title = React.createClass({
     })
       .then(()=>{
       this.btnClicked();
+      this.getTotal();
     })
  
     .catch(err => console.log('err',err))
@@ -101,6 +102,7 @@ const Title = React.createClass({
     }).then(res=>{
       this.btnClicked();
       this.getTotal();
+      this.setState({credit:0,debit:0})
     })
     console.log("this.state:", this.state)
 
@@ -134,20 +136,20 @@ const Title = React.createClass({
           <div>
         
          <div>
-            <select onChange={this.onChangeMenu} name="transaction type">
+            <select id="selectid" onChange={this.onChangeMenu} name="transaction type">
               <option value="Choose">Choose</option>
               <option value="Credit">Credit</option>
               <option value="Debit">Debit</option>
             </select>
           </div>
                 
-              <button className = "btn btn-primary" id="btnid" type="submit" >Submit</button>
+              <button  className = "btn btn-primary" id="btnid" type="submit" >Submit</button>
           </div>
         </div>
         </form>
       
             <DataDisplay data = {this.state.data} delete={this.DeleteMe}/>
-             <button onClick ={this.getTotal}>GET TOTAL</button>
+             <button className = "btn btn-primary" onClick ={this.getTotal} >GET TOTAL</button>
               <h3>Balance: {this.state.totaloverall}</h3>
          <h3>Total Credit: {this.state.totalcredit}</h3>
          <h3>Total Debit: {this.state.totaldebit}</h3>
@@ -189,6 +191,10 @@ const DataDisplay = React.createClass({
       return (
        <table className="table table-bordered">
           <thead>
+              <tr>
+                 <th id= "tabheader"colSpan = "7">Transaction Details</th>
+              </tr>
+
               <tr>
                 <th>Transaction ID</th>
                 <th>Transaction Name</th>

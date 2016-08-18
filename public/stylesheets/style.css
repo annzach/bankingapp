@@ -9,3 +9,19 @@ body{
 .form-control{
   width:18%;
 }
+
+#selectid{
+  width:343px;
+  height:33px;
+}
+
+#btnid{
+  width:73px;
+}
+
+#tabheader{
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+
+}

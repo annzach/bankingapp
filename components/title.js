@@ -1,6 +1,7 @@
 const Title = React.createClass({
   getInitialState:function(){
-
+    this.btnClicked();
+    this.getTotal();
     return {
       name:'',
       amount:'',
@@ -80,9 +81,8 @@ const Title = React.createClass({
       method: "DELETE",
       
     })
-      .then(res => {
-        console.log(res);
-        return res.json();
+      .then(()=>{
+      this.btnClicked();
     })
  
     .catch(err => console.log('err',err))
@@ -98,6 +98,9 @@ const Title = React.createClass({
        method:"POST",
       headers:{  "Content-type": "application/json"  },
       body:JSON.stringify(this.state)
+    }).then(res=>{
+      this.btnClicked();
+      this.getTotal();
     })
     console.log("this.state:", this.state)
 
@@ -137,17 +140,17 @@ const Title = React.createClass({
               <option value="Debit">Debit</option>
             </select>
           </div>
-       
-              <button className = "btn btn-primary" id="btnid" type="submit" onClick ={this.btnClicked}>Submit</button>
+                
+              <button className = "btn btn-primary" id="btnid" type="submit" >Submit</button>
           </div>
         </div>
         </form>
       
-         <DataDisplay data = {this.state.data} delete={this.DeleteMe}/>
+            <DataDisplay data = {this.state.data} delete={this.DeleteMe}/>
              <button onClick ={this.getTotal}>GET TOTAL</button>
-              <h2>Balance: {this.state.totaloverall}</h2>
-         <h2>Credit: {this.state.totalcredit}</h2>
-         <h2>Debit: {this.state.totaldebit}</h2>
+              <h3>Balance: {this.state.totaloverall}</h3>
+         <h3>Total Credit: {this.state.totalcredit}</h3>
+         <h3>Total Debit: {this.state.totaldebit}</h3>
        </div>
     )
   }

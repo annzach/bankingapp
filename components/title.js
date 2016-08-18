@@ -10,7 +10,8 @@ const Title = React.createClass({
       data:[],
       totalcredit:0,
       totaldebit:0,
-      totaloverall:0
+      totaloverall:0,
+     
     }
 
   },
@@ -72,7 +73,7 @@ const Title = React.createClass({
 
 
 
-  DeleteMe :function(id){
+  deleteMe :function(id){
             console.log("DeleteMe");
 
    var url = `/transactions/${id}`
@@ -87,6 +88,21 @@ const Title = React.createClass({
     })
  
     .catch(err => console.log('err',err))
+
+
+  },
+  modifyMe: function(id){
+    var url = `/transactions/${id}`
+    fetch(url,
+    {
+      method: "PUT",
+      headers:{  "Content-type": "application/json"  },
+      body:JSON.stringify(this.state)
+      
+    }).then(res=> {
+      console.log(res);
+    })
+
 
 
   },
@@ -143,48 +159,102 @@ const Title = React.createClass({
             </select>
           </div>
                 
-              <button  className = "btn btn-primary" id="btnid" type="submit" >Submit</button>
+            <button  className = "btn btn-primary" id="btnid" type="submit" >Submit</button>
           </div>
         </div>
         </form>
       
-            <DataDisplay data = {this.state.data} delete={this.DeleteMe}/>
-             <button className = "btn btn-primary" onClick ={this.getTotal} >GET TOTAL</button>
-              <h3>Balance: {this.state.totaloverall}</h3>
-         <h3>Total Credit: {this.state.totalcredit}</h3>
-         <h3>Total Debit: {this.state.totaldebit}</h3>
-       </div>
+        <DataDisplay data = {this.state.data} delete={this.deleteMe} update={this.modifyMe}/>
+        <button className = "btn btn-primary" onClick ={this.getTotal} >GET TOTAL</button>
+        <h3>Balance: {this.state.totaloverall}</h3>
+        <h3>Total Credit: {this.state.totalcredit}</h3>
+        <h3>Total Debit: {this.state.totaldebit}</h3>
+      </div>
     )
   }
 })
 
 const DataDisplay = React.createClass({
+ getInitialState:function(){
+  return {
+    editingId:'',
+     taskInput:''
+  }
+ },
 
 
-
-  DeleteMe :function(event){
-
-   var id = event.target.id;
+  deleteMe :function(id){
    this.props.delete(id);
 
 
   },
  
- ModifyMe :function(){
+ modifyMe :function(info){
    console.log("modify me");
+   this.setState({editingId: info._id, taskInput: info.name });
+   console.log('editingId',this.state.editingId);
+
+
+  },
+
+  saveMe:function(id){
+    let newObj = {}
+    newObj.name = this.state.taskInput
+    var url = `/transactions/${id}`
+    fetch(url,
+    {
+      method: "PUT",
+      headers:{  "Content-type": "application/json"  },
+      body:JSON.stringify(newObj)
+      
+    }).then(res=> {
+      console.log(res);
+    })
+
+  },
+  onInputChange:function(event){
+   console.log('event.target', event.target.value);
+   this.setState({ taskInput : event.target.value});
   },
   render(){
        console.log('state',this.props.data)
        let person = this.props.data.map(info=>{
+        const editing = info._id === this.state.editingId;
+        const editingId = this.state.editingId
+        const input = (
+          <input type="text" value={this.state.taskInput} onChange = {this.onInputChange}/>
+        )
+        const editBtn = (<button 
+                className ="btn btn-warning" 
+                onClick={() => this.modifyMe(info)}
+                onChange={info.name}
+              >
+                Modify
+
+              </button>)
+        const saveBtn = (
+          <button className ="btn btn-warning" 
+                onClick={() => this.saveMe(info._id)}>
+                Save
+              </button>)
         return(
           <tr key ={info._id}>
             <td>{info._id }</td>
-            <td>{info.name }</td>
+            <td>{editing ? input : info.name }</td>
             <td>{info.credit}</td>
             <td>{info.debit}</td>
             <td>{info.amount}</td>
             <td>{info.time}</td>
-            <td><button id={info._id} className ="btn btn-danger" onClick ={this.DeleteMe}>Delete</button><button className ="btn btn-warning" onClick={this.ModifyMe}>Modify</button></td>
+            <td>
+              <button 
+                id={info._id} 
+                className ="btn btn-danger" 
+                onClick ={() => this.deleteMe(info._id)}
+              >
+                Delete
+              </button>
+              {editingId ? saveBtn : editBtn}
+            </td>
           </tr>
           );
       });

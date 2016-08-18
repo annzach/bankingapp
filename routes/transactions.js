@@ -34,6 +34,7 @@ router.post('/',(req,res)=>{
 });
 
 router.put('/:id',(req,res)=>{
+  console.log('req.body', req.body);
 Transaction.findByIdAndUpdate(req.params.id,req.body,{new:true},(err,transaction)=>{
   if(err||!transaction){
     res.status(400).send(err||'transaction not found')

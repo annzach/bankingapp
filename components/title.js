@@ -137,7 +137,7 @@ const Title = React.createClass({
       return res.json();
     })
     .then(data => {
-      
+      console.log('test save');
       this.setState({data:data});
     })
     .catch(err => console.log('err','err'))
@@ -164,7 +164,7 @@ const Title = React.createClass({
         </div>
         </form>
       
-        <DataDisplay data = {this.state.data} delete={this.deleteMe} update={this.modifyMe}/>
+        <DataDisplay save={this.btnClicked} data = {this.state.data} delete={this.deleteMe} update={this.modifyMe}/>
         <button className = "btn btn-primary" onClick ={this.getTotal} >GET TOTAL</button>
         <h3>Balance: {this.state.totaloverall}</h3>
         <h3>Total Credit: {this.state.totalcredit}</h3>
@@ -208,7 +208,7 @@ const DataDisplay = React.createClass({
       body:JSON.stringify(newObj)
       
     }).then(res=> {
-      console.log(res);
+       this.props.save();
     })
 
   },
